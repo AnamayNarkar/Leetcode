@@ -38,7 +38,8 @@ class Solution {
 // time complexity: O(n)
 // space complexity: O(n)
 // differences: 1. reduced the function call overhead by using the while loop directly in the main function
-//              2.
+//              2. only checking the sequnce if the number is the starting number of the sequence
+//              3. iteratiing over the set instead of the vector to reduce the time complexity due to duplicate numbers
 
 class Solution {
   public:
