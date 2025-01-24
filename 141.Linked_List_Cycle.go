@@ -37,3 +37,30 @@ func hasCycle(head *ListNode) bool {
     }
     return false
 }
+
+// ===============
+// beats 79.68%
+// changed function name from hasCycle to hasCycle2
+
+func hasCycle2(head *ListNode) bool {
+
+    if head==nil || head.Next==nil{
+        return false
+    }
+    
+    slow,fast := head,head
+
+    for fast!=nil && fast.Next!=nil {
+
+        slow=slow.Next
+        fast=fast.Next.Next
+
+        if fast==slow {
+            return true
+        }
+
+    }
+
+    return false
+
+}
