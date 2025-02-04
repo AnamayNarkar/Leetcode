@@ -4,6 +4,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
 func convertArrayToNumber(arr []rune,sign bool) (int64,bool){
@@ -90,4 +91,57 @@ func myAtoi(s string) int {
 		finalAns = -finalAns
 	}
     return int(finalAns)
+}
+
+// better
+
+func myAtoi2(s string) int {
+
+    if s==""{
+        return 0;
+    }
+
+    s = strings.TrimSpace(s);
+
+    if s==""{
+        return 0;
+    }
+
+    negative := false
+
+    if s[0]== '+'{
+        s = s[1:]
+        if len(s)>1 && s[0]=='-'{
+            return 0
+        }
+    }else if s[0]=='-'{
+        s = s[1:]
+        negative = true
+        if len(s)>1 && s[0]=='+'{
+            return 0
+        }
+    }
+
+    res:=0
+
+    for _,ele := range(s){
+        if(ele > '9' || ele < '0'){
+            break
+        }
+
+        res = 10*res + int(ele-'0');
+
+        if(negative && res> 2147483648){
+            return -2147483648
+        }else if (!negative && res> 2147483647){
+            return  2147483647
+        }
+
+    }
+
+    if(negative){
+        return res*-1;
+    }
+    return res;
+
 }
