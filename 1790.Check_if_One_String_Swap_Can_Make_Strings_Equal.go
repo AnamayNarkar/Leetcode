@@ -16,7 +16,7 @@ func areAlmostEqual(s1 string, s2 string) bool {
 
     twoDone := 0
 
-    for index,_ := range s1 {
+    for index := range s1 {
         map1[rune(s1[index])]++
         map2[rune(s2[index])]++
 
@@ -30,7 +30,7 @@ func areAlmostEqual(s1 string, s2 string) bool {
 
     }
 
-    for key,_ := range map1{
+    for key := range map1{
         if map1[key] != map2[key]{
             return false
         }
