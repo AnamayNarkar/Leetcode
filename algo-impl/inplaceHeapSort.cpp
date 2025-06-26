@@ -4,66 +4,77 @@
 
 using namespace std;
 
-void heapSort(vector<int> &arr) {
-  int tail = arr.size() - 1;
+void inplaceHeapSort(vector<int> &vec) {
 
-  // convert the array into a heap
-  // start with the second element ( index 1 ) because we assume that the first
-  // one is in the rigth place and even if it isnt it will get these eventually
-  // as we insert and up-heapify over and over
+  // make the array into a CBT
+  // by adding an element of the array one by one
+  // and up heapifying it to its correct place
+  int end = vec.size() - 1;
+  for (int i = 1; i <= end; ++i) {
+    int newElementIndex = i;
+    int newElementParentIndex = (newElementIndex - 1) / 2;
 
-  for (int i = 1; i <= tail; ++i) {
-    int currentIndex = i;
-    int parentIndex = (currentIndex - 1) / 2;
-    while (currentIndex != 0 && arr[parentIndex] > arr[currentIndex]) {
-      swap(arr[parentIndex], arr[currentIndex]);
-      currentIndex = parentIndex;
-      parentIndex = (currentIndex - 1) / 2;
+    while (newElementIndex != 0 &&
+           vec[newElementParentIndex] > vec[newElementIndex]) {
+      swap(vec[newElementIndex], vec[newElementParentIndex]);
+      newElementIndex = newElementParentIndex;
+      newElementParentIndex = (newElementIndex - 1) / 2;
     }
   }
 
-  // now once we have our heap we now need to pop one by one
-  // but inseat of doinf pop_back() at the end , we'll just
-  // decrement the tail
-  // so that once we are done with removing well have a descending soreted array
+  // its a CBT now but, not yet sorted
+  // it will be sorted once we start popping
+  // but we cant pop and store them in a separate arrat
+  // because that will fuck ip the purpose
+  // of inplaceHeapSort since well use extra space
+  // so well pop (put that element at the emd)
+  // and pretend that space dosent exist anymore
+  // by decrementing the end pounter
+  // so well have the min element at the end
+  // and then reverse it to get the array sorted
 
+  int tail = end;
   while (tail != 0) {
-    swap(arr[tail], arr[0]);
+    swap(vec[0], vec[tail]);
     tail--;
 
     // down heapify
 
     int currentIndex = 0;
     while (true) {
-      int childIndex_1 = 1 + currentIndex * 2;
-      int childIndex_2 = 2 + currentIndex * 2;
+      int firstChildIndex = (currentIndex * 2) + 1,
+          secondChildIndex = (currentIndex * 2) + 2;
+
       int smallest = currentIndex;
 
-      if (childIndex_1 <= tail && arr[childIndex_1] < arr[smallest]) {
-        smallest = childIndex_1;
+      if (firstChildIndex <= tail && vec[firstChildIndex] < vec[smallest]) {
+        smallest = firstChildIndex;
       }
 
-      if (childIndex_2 <= tail && arr[childIndex_2] < arr[smallest]) {
-        smallest = childIndex_2;
+      if (secondChildIndex <= tail && vec[secondChildIndex] < vec[smallest]) {
+        smallest = secondChildIndex;
       }
 
-      if (smallest == currentIndex) {
-        break;
+      if (currentIndex == smallest) {
+        break; // this means that elemnt which was
+        // swapped to the first from the back
+        // has reached its correct position
+        // and theres no children
+        // or theres no children smaller than him
       }
-
-      swap(arr[currentIndex], arr[smallest]);
+      swap(vec[smallest], vec[currentIndex]);
       currentIndex = smallest;
     }
   }
 
-  reverse(arr.begin(), arr.end());
+  reverse(vec.begin(), vec.end());
 }
 
 int main() {
 
   vector<int> vec = {5, 4, 3, 2, 1};
 
-  heapSort(vec);
+  inplaceHeapSort(vec);
 
   for (int num : vec) {
     cout << num << " ";
